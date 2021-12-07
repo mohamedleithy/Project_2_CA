@@ -25,7 +25,7 @@ public:
     
     integration();
     
-    void issueInstructions(instQueue &q, resvStation rS[], regStat regS, regFile rf);
+    void issueInstructions(instQueue &q, resvStation rS[], regStat &regS, regFile &rf);
     
 };
 

@@ -12,9 +12,7 @@ using namespace std;
 
 int main() {
     
-    instQueue i;
-    
-    i.parseInst("blabla"); 
+    integration i; 
     
     
     
