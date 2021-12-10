@@ -11,18 +11,10 @@
 using namespace std;
 
 int main() {
-    
-    integration i; 
-    
-    
-    
 
     
-    
-    
-   
-    
-    
-    
+    integration i;
     return  0;
+
+    
 }

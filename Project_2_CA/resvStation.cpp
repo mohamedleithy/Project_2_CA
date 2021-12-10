@@ -16,6 +16,12 @@ resvStation::resvStation(){
      qk = -1;
      a = -1;
     name = "";
+    clock = 0;
+    imm = 0;
+    rd = 0;
+    
+    startExec = -1;
+    endExec = -1; 
     
     
 }
@@ -132,5 +138,90 @@ int resvStation::getA(){
     
 
     return  a;
+    
+}
+
+
+
+void resvStation::setClock(int clock){
+    
+    
+    clock = clock;
+    
+    
+}
+int resvStation::getClock(){
+    
+    
+    
+    return clock; 
+}
+
+
+
+void resvStation::setImm(int imm){
+    
+    imm = imm;
+    
+}
+int resvStation::getImm(){
+    
+    
+    return imm;
+    
+    
+}
+
+
+void resvStation::setRd(int rd){
+    
+    rd = rd; 
+    
+}
+int resvStation::getRd(){
+    
+    
+    
+    return rd;
+    
+    
+}
+
+
+
+
+void resvStation::setStartExec(int startExec){
+    
+    startExec = startExec;
+    
+    
+}
+
+
+
+int resvStation::getStartExec(){
+    
+    
+   
+    return startExec;
+    
+    
+}
+
+
+
+void resvStation::setEndExec(int endExec){
+    
+    
+  
+    endExec = endExec;
+    
+}
+
+
+
+int resvStation::getEndExec(){
+    
+    return endExec;
     
 }

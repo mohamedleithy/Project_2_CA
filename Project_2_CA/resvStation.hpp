@@ -26,6 +26,13 @@ private:
     int qj;
     int qk;
     int a;
+    int clock;
+    int imm;
+    int rd;
+    
+    int startExec;
+    int endExec;
+    
     
 public:
     
@@ -64,13 +71,30 @@ public:
     int getA();
     
     
+    void setClock(int clock);
+    int getClock();
+    
+    void setImm(int imm);
+    int getImm();
     
     
     
+    void setRd(int rd);
+    int getRd();
     
     
     
+    void setStartExec(int startExec);
+    int getStartExec();
     
+    
+    
+    void setEndExec(int endExec);
+    int getEndExec();
+    
+    
+    
+
     
     
     
