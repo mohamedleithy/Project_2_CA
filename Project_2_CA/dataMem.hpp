@@ -18,7 +18,7 @@ class dataMem{
 private:
     
     
-    int Mem[256];
+    int Mem[10000];
     
     
     

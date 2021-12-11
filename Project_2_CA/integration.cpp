@@ -22,7 +22,7 @@ integration::integration(){
     
     vector<inst> issued;
     
-    
+
     mem.dataSetter(0, 0);
     mem.dataSetter(1, 1);
     mem.dataSetter(2, 2);
@@ -63,8 +63,14 @@ integration::integration(){
     while(1){
         
      issueInstructions( q, resvStations, rS, rf, issued);
+        
+    executeInstructions( resvStations, rS, rf, issued, mem);
     
-    
+    wbQueue b =  sortAndIssueWb(writeBackQueue);
+        if(writeBackQueue.size()!=0){
+        wB(resvStations,rS, rf, issued, mem, b.value, b.index);
+        }
+        
         clock++; 
     }
     
@@ -859,38 +865,52 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
     
     if((rS[0].getBusy()==1)&&(rS[0].getQj()==-1)&&(rS[0].getQk()==-1)){
        
-        
-        
-        rS[0].setA(rS[0].getVj()+rS[0].getImm());
-        
-        if(clock - rS[0].getClock()>= 3){
-        
-            if((rS[0].getA()==rS[1].getA())|| (rS[0].getA()==rS[2].getA()) || (rS[0].getA()==rS[3].getA()) ){
+            rS[0].setA(rS[0].getVj()+rS[0].getImm());
             
-                if((rS[0].getClock()<rS[1].getClock())||(rS[0].getClock()<rS[2].getClock())||(rS[0].getClock()<rS[2].getClock())){
+            if(clock - rS[0].getClock()>= 1){
+                
                 if(rS[0].getStartExec()==-1){
                 rS[0].setStartExec(clock);
+                    cout << rS[0].getStartExec() << endl;
                 }
+            }
+            
+            if(clock - rS[0].getStartExec() >= 4){
+                if((rS[0].getA()==rS[1].getA())|| (rS[0].getA()==rS[2].getA()) || (rS[0].getA()==rS[3].getA()) ){
+                
+                    if((rS[0].getClock()<rS[1].getClock())||(rS[0].getClock()<rS[2].getClock())||(rS[0].getClock()<rS[3].getClock())){
+                        
+                        rS[0].setEndExec(clock);
+                        
+                        
+                        
+                        wbQueue a;
+                        a.value = mem.dataGetter(rS[0].getA());
+                        a.index = rS[0].getRd();
+                        writeBackQueue.push_back(a);
+                        rS[0].setBusy(false);
+
+                    }
+                    
+                } else {
+                    
+                    
+                    rS[0].setEndExec(clock);
+                    
+                    
+                    
+                    wbQueue a;
+                    a.value = mem.dataGetter(rS[0].getA());
+                    a.index = rS[0].getRd();
+                    writeBackQueue.push_back(a);
+                    rS[0].setBusy(false);
+                    
+                    
                 }
                 
             }
-            
-        }
         
-        
-        
-        if(clock - rS[0].getStartExec() == 3){
-            
-            rS[0].setEndExec(clock);
-            
-            
-            
-        }
-        
-        
-        
-        
-        
+    
         
     }
     
@@ -899,37 +919,53 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
        
         
         
+        
         rS[1].setA(rS[1].getVj()+rS[1].getImm());
         
-        if(clock - rS[1].getClock()>= 3){
-        
-            if((rS[1].getA()==rS[0].getA())|| (rS[1].getA()==rS[2].getA()) || (rS[1].getA()==rS[3].getA()) ){
+        if(clock - rS[1].getClock()>= 1){
             
-                if((rS[1].getClock()<rS[0].getClock())||(rS[1].getClock()<rS[2].getClock())||(rS[1].getClock()<rS[2].getClock())){
-                if(rS[1].getStartExec()==-1){
-                rS[1].setStartExec(clock);
-                }
+            if(rS[1].getStartExec()==-1){
+            rS[1].setStartExec(clock);
+            }
+
+        }
+        
+        
+        if(clock - rS[1].getStartExec() >= 4){
+            
+            if((rS[2].getA()==rS[0].getA())|| (rS[2].getA()==rS[1].getA()) || (rS[2].getA()==rS[3].getA()) ){
+            
+                if((rS[2].getClock()<rS[0].getClock())||(rS[2].getClock()<rS[1].getClock())||(rS[2].getClock()<rS[3].getClock())){
+                    
+                    rS[2].setEndExec(clock);
+                    
+                    
+                    wbQueue a;
+                    a.value = mem.dataGetter(rS[1].getA());
+                    a.index = rS[1].getRd();
+                    writeBackQueue.push_back(a);
+                    rS[1].setBusy(false);
+                
+                } else {
+                    
+                    
+                    rS[0].setEndExec(clock);
+                    
+                    
+                    
+                    wbQueue a;
+                    a.value = mem.dataGetter(rS[1].getA());
+                    a.index = rS[1].getRd();
+                    writeBackQueue.push_back(a);
+                    rS[1].setBusy(false);
+                    
                     
                 }
+
                 
             }
             
         }
-        
-        
-        
-        if(clock - rS[1].getStartExec() == 3){
-            
-            rS[1].setEndExec(clock);
-            
-            
-            
-        }
-        
-        
-        
-        
-        
         
         
         
@@ -941,37 +977,48 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
     if((rS[2].getBusy()==1)&&(rS[2].getQj()==-1)&&(rS[2].getQk()==-1)){
        
         
-        
-        rS[2].setA(rS[2].getVj()+rS[2].getImm());
-        
-        if(clock - rS[2].getClock()>= 3){
-        
-            if((rS[2].getA()==rS[0].getA())|| (rS[2].getA()==rS[1].getA()) || (rS[2].getA()==rS[3].getA()) ){
+           
             
-                if((rS[2].getClock()<rS[0].getClock())||(rS[2].getClock()<rS[1].getClock())||(rS[2].getClock()<rS[3].getClock())){
+            rS[2].setA(rS[2].getVj()+rS[2].getImm());
+            
+            if(clock - rS[2].getClock()>= 1){
+                
                 if(rS[2].getStartExec()==-1){
                 rS[2].setStartExec(clock);
                 }
-                    
-                }
-                
+
             }
             
-        }
-        
-        
-        
-        if(clock - rS[2].getStartExec() == 3){
             
-            rS[0].setEndExec(clock);
-            
-            
-            
-        }
-        
-        
-        
-        
+            if(clock - rS[2].getStartExec() >= 2){
+                
+                if((rS[2].getA()==rS[0].getA())|| (rS[2].getA()==rS[1].getA()) || (rS[2].getA()==rS[3].getA()) ){
+                
+                    if((rS[2].getClock()<rS[0].getClock())||(rS[2].getClock()<rS[1].getClock())||(rS[2].getClock()<rS[3].getClock())){
+                        
+                        rS[2].setEndExec(clock);
+                        rS[2].setBusy(false);
+                        
+                        
+                    
+                    }
+                    
+                }else {
+                    
+                    
+                    rS[2].setEndExec(clock);
+                    rS[2].setBusy(false);
+                    
+                    
+                    
+                    wbQueue a;
+                    
+                    
+                    
+                }
+
+                
+            }
         
         
         
@@ -987,38 +1034,48 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
         
         rS[3].setA(rS[3].getVj()+rS[3].getImm());
         
-        if(clock - rS[3].getClock()>= 3){
+        if(clock - rS[3].getClock()>= 1){
+            
+            if(rS[3].getStartExec()==-1){
+            rS[3].setStartExec(clock);
+            }
         
+            
+        }
+        
+        
+        if(clock - rS[3].getStartExec() >= 2){
+            
             if((rS[3].getA()==rS[0].getA())|| (rS[3].getA()==rS[1].getA()) || (rS[3].getA()==rS[2].getA()) ){
             
                 if((rS[3].getClock()<rS[0].getClock())||(rS[3].getClock()<rS[1].getClock())||(rS[3].getClock()<rS[2].getClock())){
-                if(rS[3].getStartExec()==-1){
-                rS[3].setStartExec(clock);
-                }
+                    
+                    rS[3].setEndExec(clock);
+                    rS[3].setBusy(false);
+                
                 }
                 
             }
+            else {
+                
+                
+                rS[3].setEndExec(clock);
+                rS[3].setBusy(false);
+                
+                
+                
+                wbQueue a;
+                
+                
+                
+            }
+
+            
+            
             
         }
         
-        
-        if(clock - rS[3].getStartExec() == 3){
-            
-            rS[3].setEndExec(clock);
-            
-            
-            
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    
         
     }
    
@@ -1038,7 +1095,7 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
         if(clock - rS[4].getStartExec() == 2){
             
             rS[4].setEndExec(clock);
-            
+            rS[4].setBusy(false);
             
             
         }
@@ -1062,7 +1119,7 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
         if(clock - rS[5].getStartExec() == 2){
             
             rS[5].setEndExec(clock);
-            
+            rS[5].setBusy(false);
             
             
         }
@@ -1087,6 +1144,13 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
             rS[6].setEndExec(clock);
             
             
+            wbQueue a;
+            a.value = rS[6].getVj() + rS[6].getVk();
+            a.index = rS[6].getRd();
+            writeBackQueue.push_back(a);
+            rS[6].setBusy(false);
+            
+            
             
         }
       
@@ -1105,6 +1169,11 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
             
             rS[7].setEndExec(clock);
             
+            wbQueue a;
+            a.value = rS[7].getVj() + rS[7].getVk();
+            a.index = rS[7].getRd();
+            writeBackQueue.push_back(a);
+            rS[7].setBusy(false);
             
         }
         
@@ -1121,6 +1190,12 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
         if(clock - rS[8].getStartExec() == 3){
             
             rS[8].setEndExec(clock);
+            
+            wbQueue a;
+            a.value = rS[8].getVj() + rS[8].getVk();
+            a.index = rS[8].getRd();
+            writeBackQueue.push_back(a);
+            rS[8].setBusy(false);
             
             
             
@@ -1144,6 +1219,11 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
             
             rS[9].setEndExec(clock);
             
+            wbQueue a;
+            a.value = rS[9].getVj()*-1;
+            a.index = rS[9].getRd();
+            writeBackQueue.push_back(a);
+            rS[9].setBusy(false);
             
             
         }
@@ -1164,6 +1244,13 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
         if(clock - rS[10].getStartExec() == 3){
             
             rS[10].setEndExec(clock);
+            
+            
+            wbQueue a;
+            a.value = abs(rS[10].getVj()) ;
+            a.index = rS[10].getRd();
+            writeBackQueue.push_back(a);
+            rS[10].setBusy(false);
             
             
             
@@ -1187,6 +1274,12 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
             
             rS[11].setEndExec(clock);
             
+            wbQueue a;
+            a.value = rS[11].getVj() / rS[11].getVk();
+            a.index = rS[11].getRd();
+            writeBackQueue.push_back(a);
+            rS[11].setBusy(false);
+            
             
             
         }
@@ -1202,37 +1295,104 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //In the write back stage we need to broadcast the value to
 // regStat and the other reservations stations
 // mark the current reservations station as not busy
 
 
 
-void integration::wB( resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem, int valueToWrite){
+void integration::wB( resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem, int valueToWrite, int rd){
+    
+//the write back function shall take the rd and write back to the register file the new value
+// and broadcast the value to all reservation stations waiting for this value along with updating the regStat to the new reservation station that is to forward the value later on
+    
+    
+    rf.setRegFile(valueToWrite, rd);
     
     
     
-    
-    
-    
+    for(int i=0; i<12; i++){
+        
+        
+        if((rS[i].getQj()==rd)){
+            rS[i].setQj(-1);
+            rS[i].setVj(valueToWrite);
+
+        }
+
+        if((rS[i].getQk()==rd)){
+            
+            rS[i].setQk(-1);
+            rS[i].setVk(valueToWrite);
+            
+        }
+        
+    }
     
 }
 
+
+
+//add r5, r3, r2
+
+//wb vj and vk will be forwarded by the CDB
+
+//if we're issuing
+
+//add r5, r5, r5
+
+
+
+
+void integration::heapify(vector<wbQueue> &j, int n, int i)
+{
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+    
+    if (l < n && j[l].clock > j[largest].clock)
+        largest = l;
+    if (r < n && j[r].clock > j[largest].clock)
+        largest = r;
+    if (largest != i) {
+        swap(j[i], j[largest]);
+        heapify(j, n, largest);
+    }
+    
+}
+
+void integration::build_heap(vector<wbQueue> &j)
+{
+    for (int i = j.size() / 2 - 1; i >= 0; i--)
+        heapify(j, j.size(), i);
+}
+
+
+void integration::heap_sort(vector<wbQueue> &j)
+{
+    build_heap(j);
+    for (int i = j.size() - 1; i >= 0; i--) {
+        swap(j[0], j[i]);
+        heapify(j, i, 0);
+    }
+}
+
+
+
+wbQueue integration::sortAndIssueWb(vector<wbQueue> writeBackQueue){
+    
+    heap_sort(writeBackQueue);
+    wbQueue a;
+    if(writeBackQueue.size()!=0){
+     a = writeBackQueue[0];
+
+    writeBackQueue.erase(writeBackQueue.begin());
+    }
+    
+    return  a;
+  
+
+}
 
 
 

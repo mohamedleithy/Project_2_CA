@@ -143,10 +143,10 @@ int resvStation::getA(){
 
 
 
-void resvStation::setClock(int clock){
+void resvStation::setClock(int clockk){
     
     
-    clock = clock;
+    clock = clockk;
     
     
 }
@@ -159,9 +159,9 @@ int resvStation::getClock(){
 
 
 
-void resvStation::setImm(int imm){
+void resvStation::setImm(int immm){
     
-    imm = imm;
+    imm = immm;
     
 }
 int resvStation::getImm(){
@@ -173,9 +173,9 @@ int resvStation::getImm(){
 }
 
 
-void resvStation::setRd(int rd){
+void resvStation::setRd(int rdd){
     
-    rd = rd; 
+    rd = rdd;
     
 }
 int resvStation::getRd(){
@@ -190,9 +190,9 @@ int resvStation::getRd(){
 
 
 
-void resvStation::setStartExec(int startExec){
+void resvStation::setStartExec(int startExecc){
     
-    startExec = startExec;
+    startExec = startExecc;
     
     
 }
@@ -210,11 +210,11 @@ int resvStation::getStartExec(){
 
 
 
-void resvStation::setEndExec(int endExec){
+void resvStation::setEndExec(int endExecc){
     
     
   
-    endExec = endExec;
+    endExec = endExecc;
     
 }
 

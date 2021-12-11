@@ -42,14 +42,26 @@ public:
     
     void issueInstructions(instQueue &q, resvStation rS[], regStat &regS, regFile &rf, vector<inst> &issued);
     
-   
-    
     void executeInstructions( resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem);
     
+    wbQueue sortAndIssueWb(vector<wbQueue> writeBackQueue);
+    
+    void wB( resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd);
     
     
     
-    void wB( resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite);
+    void heapify(vector<wbQueue> &j, int n, int i);
+    
+
+    void build_heap(vector<wbQueue> &j);
+  
+
+
+    void heap_sort(vector<wbQueue> &j);
+
+
+    
+    
     
     
     

@@ -29,7 +29,6 @@ private:
     int clock;
     int imm;
     int rd;
-    
     int startExec;
     int endExec;
     
@@ -95,8 +94,6 @@ public:
     
     
 
-    
-    
     
     
 }; 
