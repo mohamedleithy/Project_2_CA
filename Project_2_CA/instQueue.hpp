@@ -27,6 +27,7 @@ struct inst{
     int startExec;
     int endExec;
     int writeBack;
+    int index; 
     
 };
 
@@ -36,6 +37,7 @@ class instQueue{
 private:
     
     vector<inst> iQueue;
+    int counter; 
 public:
     
     instQueue();
@@ -44,7 +46,9 @@ public:
     
     inst getInstruction();
     
-    void popInstruction(); 
+    void popInstruction();
+    
+    vector<inst> getQueue();
     
     
     

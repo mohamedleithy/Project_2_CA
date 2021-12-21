@@ -21,7 +21,8 @@ resvStation::resvStation(){
     rd = 0;
     
     startExec = -1;
-    endExec = -1; 
+    endExec = -1;
+    ind = 0;
     
     
 }
@@ -224,4 +225,38 @@ int resvStation::getEndExec(){
     
     return endExec;
     
+}
+
+
+void resvStation::flush(){
+    
+    
+    
+    busy = false;
+    op = 'z';
+    vj = -1;
+    vk= -1;
+    qj= -1;
+    qk = -1;
+    a = -1;
+   name = "";
+   clock = 0;
+   imm = 0;
+   rd = 0;
+   
+   startExec = -1;
+   endExec = -1; 
+    
+    
+}
+
+void resvStation::setIndex(int i){
+    
+    ind = i;
+}
+
+
+int resvStation::getIndex(){
+    
+    return ind;
 }

@@ -31,6 +31,7 @@ private:
     int rd;
     int startExec;
     int endExec;
+    int ind; 
     
     
 public:
@@ -39,6 +40,7 @@ public:
     
     void setBusy(bool);
     bool getBusy();
+    void flush(); 
     
     void setName(string);
     string getName();
@@ -90,6 +92,9 @@ public:
     
     void setEndExec(int endExec);
     int getEndExec();
+   
+    void setIndex(int i);
+    int getIndex();
     
     
     

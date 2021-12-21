@@ -10,7 +10,7 @@
 
 instQueue::instQueue(){
     
-    
+    counter = 0;
 }
 
 
@@ -62,6 +62,8 @@ void instQueue::parseInst(string filePath){
             }
             
             a.imm = stoi(fill);
+            a.index = counter;
+            counter++;
             
             iQueue.push_back(a);
             
@@ -85,6 +87,8 @@ void instQueue::parseInst(string filePath){
             }
             
            a.imm = stoi(fill);
+            a.index = counter;
+            counter++;
             iQueue.push_back(a);
             
         }
@@ -96,6 +100,8 @@ void instQueue::parseInst(string filePath){
             a.rs2 = (int)data[i][2][1]-48;
             a.rd = 0;
             a.imm = stoi(data[i][3]);
+            a.index = counter;
+            counter++;
             iQueue.push_back(a);
             
             
@@ -108,6 +114,8 @@ void instQueue::parseInst(string filePath){
             a.rs2 = 0;
             a.rd = (int)(data[i][1][1])-48;
             a.imm = stoi(data[i][2]);
+            a.index = counter;
+            counter++;
             iQueue.push_back(a);
             
             
@@ -121,6 +129,8 @@ void instQueue::parseInst(string filePath){
             a.rs2 = 0;
             a.rd = (int)(data[i][1][1])-48;
             a.imm = 0;
+            a.index = counter;
+            counter++;
             
             iQueue.push_back(a);
             
@@ -134,6 +144,8 @@ void instQueue::parseInst(string filePath){
             a.rs2 = (int)(data[i][3][1])-48;
             a.rd = (int)(data[i][1][1])-48;
             a.imm = 0;
+            a.index = counter;
+            counter++;
             
             iQueue.push_back(a);
             
@@ -147,6 +159,8 @@ void instQueue::parseInst(string filePath){
             a.rs2 = 0;
             a.rd = (int)(data[i][1][1])-48;
             a.imm = stoi(data[i][3]);
+            a.index = counter;
+            counter++;
             iQueue.push_back(a);
             
         }
@@ -159,6 +173,8 @@ void instQueue::parseInst(string filePath){
             a.rs2 = 0;
             a.rd = (int)(data[i][1][1])-48;
             a.imm = 0;
+            a.index = counter;
+            counter++;
             iQueue.push_back(a);
             
             
@@ -172,7 +188,8 @@ void instQueue::parseInst(string filePath){
             a.rs2 = 0;
             a.rd = (int)(data[i][1][1])-48;
             a.imm = 0;
-            
+            a.index = counter;
+            counter++;
             iQueue.push_back(a);
             
         }
@@ -185,8 +202,10 @@ void instQueue::parseInst(string filePath){
             a.rs2 = (int)(data[i][3][1])-48;
             a.rd = (int)(data[i][1][1])-48;
             a.imm = 0;
-            
+            a.index = counter;
+            counter++;
             iQueue.push_back(a);
+            
             
             
         }
@@ -228,6 +247,15 @@ void instQueue::popInstruction(){
     
 }
 
+
+vector<inst> instQueue::getQueue(){
+    
+    
+
+    
+    return iQueue;
+    
+}
 
 
 

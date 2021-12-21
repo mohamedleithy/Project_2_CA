@@ -22,7 +22,6 @@ integration::integration(){
     
     vector<inst> issued;
     
-
     mem.dataSetter(0, 0);
     mem.dataSetter(1, 1);
     mem.dataSetter(2, 2);
@@ -34,8 +33,8 @@ integration::integration(){
     
     
     rf.setRegFile(44, 6);
-    rf.setRegFile(10, 1);
-    rf.setRegFile(12, 2);
+    rf.setRegFile(1, 1);
+    rf.setRegFile(1, 2);
     
     resvStations[0].setName("Lw1");
     resvStations[1].setName("Lw2");
@@ -62,9 +61,12 @@ integration::integration(){
     
     while(1){
         
+     
      issueInstructions( q, resvStations, rS, rf, issued);
+       
+    executeInstructions( q, resvStations, rS, rf, issued, mem);
+
         
-    executeInstructions( resvStations, rS, rf, issued, mem);
     
     wbQueue b =  sortAndIssueWb(writeBackQueue);
         if(writeBackQueue.size()!=0){
@@ -102,23 +104,25 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[0].setVj(rf.getRegFile(i.rs1));
                 regS.modifyRegS(i.rd, "LW1", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[0].setClock(clock);
+                i.issueTime = clock+1;
+                rS[0].setClock(clock+1);
                 
                 issued.push_back(i);
                 rS[0].setImm(i.imm);
                 rS[0].setRd(i.rd);
+                rS[0].setIndex(i.index);
                 
             }
             else if(regS.getRegStat(i.rs1).first==1){
                 
                 rS[0].setQj(i.rs1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[0].setClock(clock);
+                i.issueTime = clock+1;
+                rS[0].setClock(clock+1);
                 issued.push_back(i);
                 rS[0].setImm(i.imm);
                 rS[0].setRd(i.rd);
+                rS[0].setIndex(i.index);
                 
             }
             
@@ -131,20 +135,22 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[1].setVj(rf.getRegFile(i.rs1));
                 regS.modifyRegS(i.rd, "LW2", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[1].setClock(clock);
+                i.issueTime = clock+1;
+                rS[1].setClock(clock+1);
                 issued.push_back(i);
                 rS[1].setImm(i.imm);
                 rS[1].setRd(i.rd);
+                rS[1].setIndex(i.index);
             }
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[1].setQj(i.rs1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[1].setClock(clock);
+                i.issueTime = clock+1;
+                rS[1].setClock(clock+1);
                 issued.push_back(i);
                 rS[1].setImm(i.imm);
                 rS[1].setRd(i.rd);
+                rS[1].setIndex(i.index);
             }
         }
     
@@ -170,11 +176,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[2].setVj(rf.getRegFile(i.rs1));
                
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[2].setClock(clock);
+                i.issueTime = clock+1;
+                rS[2].setClock(clock+1);
                 issued.push_back(i);
                 rS[2].setImm(i.imm);
                 rS[2].setRd(i.rd);
+                rS[2].setIndex(i.index);
                 
             }
             
@@ -182,11 +189,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 
                 rS[2].setQj(i.rs1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[2].setClock(clock);
+                i.issueTime = clock+1;
+                rS[2].setClock(clock+1);
                 issued.push_back(i);
                 rS[2].setImm(i.imm);
                 rS[2].setRd(i.rd);
+                rS[2].setIndex(i.index);
                 
             }
             
@@ -195,12 +203,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[2].setVk(rf.getRegFile(i.rs2));
                 rS[2].setImm(i.imm);
                 rS[2].setRd(i.rd);
+                rS[2].setIndex(i.index);
                 
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[2].setQk(i.rs2);
                 rS[2].setImm(i.imm);
                 rS[2].setRd(i.rd);
+                rS[2].setIndex(i.index);
                
             }
             
@@ -226,12 +236,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 
                 rS[3].setImm(i.imm);
                 rS[3].setRd(i.rd);
+                rS[3].setIndex(i.index);
 
             }
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[3].setQj(i.rs1);
                 rS[3].setImm(i.imm);
                 rS[3].setRd(i.rd);
+                rS[3].setIndex(i.index);
             }
             
             
@@ -242,20 +254,22 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[3].setVk(rf.getRegFile(i.rs2));
                
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[3].setClock(clock);
+                i.issueTime = clock+1;
+                rS[3].setClock(clock+1);
                 issued.push_back(i);
                 rS[3].setImm(i.imm);
                 rS[3].setRd(i.rd);
+                rS[3].setIndex(i.index);
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[3].setQk(i.rs2);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[3].setClock(clock);
+                i.issueTime = clock+1;
+                rS[3].setClock(clock+1);
                 issued.push_back(i);
                 rS[3].setImm(i.imm);
                 rS[3].setRd(i.rd);
+                rS[3].setIndex(i.index);
             }
             
             
@@ -284,11 +298,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[4].setVj(rf.getRegFile(i.rs1));
                 
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[4].setClock(clock);
+                i.issueTime = clock+1;
+                rS[4].setClock(clock+1);
                 issued.push_back(i);
                 rS[4].setImm(i.imm);
                 rS[4].setRd(i.rd);
+                rS[4].setIndex(i.index);
                 
             }
             
@@ -296,11 +311,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 
                 rS[4].setQj(i.rs1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[4].setClock(clock);
+                i.issueTime = clock+1;
+                rS[4].setClock(clock+1);
                 issued.push_back(i);
                 rS[4].setImm(i.imm);
                 rS[4].setRd(i.rd);
+                rS[4].setIndex(i.index);
                 
             }
             
@@ -309,12 +325,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                
                 rS[4].setImm(i.imm);
                 rS[4].setRd(i.rd);
+                rS[4].setIndex(i.index);
                 
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[4].setQk(i.rs2);
                 rS[4].setImm(i.imm);
                 rS[4].setRd(i.rd);
+                rS[4].setIndex(i.index);
                
             }
             
@@ -353,12 +371,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
             rS[5].setOp('j');
             regS.modifyRegS(i.rd, "JAL", 1);
             q.popInstruction();
-            i.issueTime = clock;
-            rS[5].setClock(clock);
+            i.issueTime = clock+1;
+            rS[5].setClock(clock+1);
             issued.push_back(i);
             rS[5].setImm(i.imm);
             rS[5].setRd(i.rd);
+            rS[5].setIndex(i.index);
         }
+        
         
     }
     // Jalr requires rd and rs1
@@ -374,11 +394,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[5].setVj(rf.getRegFile(i.rs1));
                 regS.modifyRegS(i.rd, "JALR", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[5].setClock(clock);
+                i.issueTime = clock+1;
+                rS[5].setClock(clock+1);
                 issued.push_back(i);
                 rS[5].setImm(i.imm);
                 rS[5].setRd(i.rd);
+                rS[5].setIndex(i.index);
                 
             }
             
@@ -386,11 +407,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 
                 rS[5].setQj(i.rs1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[5].setClock(clock);
+                i.issueTime = clock+1;
+                rS[5].setClock(clock+1);
                 issued.push_back(i);
                 rS[5].setImm(i.imm);
                 rS[5].setRd(i.rd);
+                rS[5].setIndex(i.index);
                 
             }
         
@@ -413,11 +435,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[6].setVj(rf.getRegFile(i.rs1));
                 regS.modifyRegS(i.rd, "ADD1", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[6].setClock(clock);
+                i.issueTime = clock+1;
+                rS[6].setClock(clock+1);
                 issued.push_back(i);
                 rS[6].setImm(i.imm);
                 rS[6].setRd(i.rd);
+                rS[6].setIndex(i.index);
                 
             }
             
@@ -425,11 +448,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 
                 rS[6].setQj(i.rs1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[6].setClock(clock);
+                i.issueTime = clock+1;
+                rS[6].setClock(clock+1);
                 issued.push_back(i);
                 rS[6].setImm(i.imm);
                 rS[6].setRd(i.rd);
+                rS[6].setIndex(i.index);
                 
             }
             
@@ -439,12 +463,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 regS.modifyRegS(i.rd, "ADD1", 1);
                 rS[6].setImm(i.imm);
                 rS[6].setRd(i.rd);
+                rS[6].setIndex(i.index);
                 
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[6].setQk(i.rs2);
                 rS[6].setImm(i.imm);
                 rS[6].setRd(i.rd);
+                rS[6].setIndex(i.index);
                
             }
             
@@ -470,12 +496,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 regS.modifyRegS(i.rd, "ADD2", 1);
                 rS[7].setImm(i.imm);
                 rS[7].setRd(i.rd);
+                rS[7].setIndex(i.index);
 
             }
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[7].setQj(i.rs1);
                 rS[7].setImm(i.imm);
                 rS[7].setRd(i.rd);
+                rS[7].setIndex(i.index);
             }
             
             
@@ -486,20 +514,22 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[7].setVk(rf.getRegFile(i.rs2));
                 regS.modifyRegS(i.rd, "ADD2", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[7].setClock(clock);
+                i.issueTime = clock+1;
+                rS[7].setClock(clock+1);
                 issued.push_back(i);
                 rS[7].setImm(i.imm);
                 rS[7].setRd(i.rd);
+                rS[7].setIndex(i.index);
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[7].setQk(i.rs2);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[7].setClock(clock);
+                i.issueTime = clock+1;
+                rS[7].setClock(clock+1);
                 issued.push_back(i);
                 rS[7].setImm(i.imm);
                 rS[7].setRd(i.rd);
+                rS[7].setIndex(i.index);
             }
             
             
@@ -520,12 +550,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 regS.modifyRegS(i.rd, "ADD3", 1);
                 rS[8].setImm(i.imm);
                 rS[8].setRd(i.rd);
+                rS[8].setIndex(i.index);
 
             }
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[8].setQj(i.rs1);
                 rS[8].setImm(i.imm);
                 rS[8].setRd(i.rd);
+                rS[8].setIndex(i.index);
             }
             
             
@@ -536,20 +568,22 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[8].setVk(rf.getRegFile(i.rs2));
                 regS.modifyRegS(i.rd, "ADD3", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[8].setClock(clock);
+                i.issueTime = clock+1;
+                rS[8].setClock(clock+1);
                 issued.push_back(i);
                 rS[8].setImm(i.imm);
                 rS[8].setRd(i.rd);
+                rS[8].setIndex(i.index);
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[8].setQk(i.rs2);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[8].setClock(clock);
+                i.issueTime = clock+1;
+                rS[8].setClock(clock+1);
                 issued.push_back(i);
                 rS[8].setImm(i.imm);
                 rS[8].setRd(i.rd);
+                rS[8].setIndex(i.index);
             }
             
             
@@ -574,11 +608,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[6].setVj(rf.getRegFile(i.rs1));
                 regS.modifyRegS(i.rd, "ADD1", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[6].setClock(clock);
+                i.issueTime = clock+1;
+                rS[6].setClock(clock+1);
                 issued.push_back(i);
                 rS[6].setImm(i.imm);
                 rS[6].setRd(i.rd);
+                rS[6].setIndex(i.index);
                 
             }
             
@@ -586,11 +621,12 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 
                 rS[6].setQj(i.rs1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[6].setClock(clock);
+                i.issueTime = clock+1;
+                rS[6].setClock(clock+1);
                 issued.push_back(i);
                 rS[6].setImm(i.imm);
                 rS[6].setRd(i.rd);
+                rS[6].setIndex(i.index);
                 
             }
             
@@ -600,12 +636,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 regS.modifyRegS(i.rd, "ADD1", 1);
                 rS[6].setImm(i.imm);
                 rS[6].setRd(i.rd);
+                rS[6].setIndex(i.index);
                 
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[6].setQk(i.rs2);
                 rS[6].setImm(i.imm);
                 rS[6].setRd(i.rd);
+                rS[6].setIndex(i.index);
                
             }
             
@@ -632,12 +670,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 regS.modifyRegS(i.rd, "ADD2", 1);
                 rS[7].setImm(i.imm);
                 rS[7].setRd(i.rd);
+                rS[7].setIndex(i.index);
 
             }
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[7].setQj(i.rs1);
                 rS[7].setImm(i.imm);
                 rS[7].setRd(i.rd);
+                rS[7].setIndex(i.index);
             }
             
             
@@ -648,20 +688,22 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[7].setVk(rf.getRegFile(i.rs2));
                 regS.modifyRegS(i.rd, "ADD2", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[7].setClock(clock);
+                i.issueTime = clock+1;
+                rS[7].setClock(clock+1);
                 issued.push_back(i);
                 rS[7].setImm(i.imm);
                 rS[7].setRd(i.rd);
+                rS[7].setIndex(i.index);
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[7].setQk(i.rs2);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[7].setClock(clock);
+                i.issueTime = clock+1;
+                rS[7].setClock(clock+1);
                 issued.push_back(i);
                 rS[7].setImm(i.imm);
                 rS[7].setRd(i.rd);
+                rS[7].setIndex(i.index);
             }
             
             
@@ -680,12 +722,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 regS.modifyRegS(i.rd, "ADD3", 1);
                 rS[8].setImm(i.imm);
                 rS[8].setRd(i.rd);
+                rS[8].setIndex(i.index);
 
             }
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[8].setQj(i.rs1);
                 rS[8].setImm(i.imm);
                 rS[8].setRd(i.rd);
+                rS[8].setIndex(i.index);
             }
             
             
@@ -696,20 +740,22 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[8].setVk(rf.getRegFile(i.rs2));
                 regS.modifyRegS(i.rd, "ADD3", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[8].setClock(clock);
+                i.issueTime = clock+1;
+                rS[8].setClock(clock+1);
                 issued.push_back(i);
                 rS[8].setImm(i.imm);
                 rS[8].setRd(i.rd);
+                rS[8].setIndex(i.index);
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[8].setQk(i.rs2);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[8].setClock(clock);
+                i.issueTime = clock+1;
+                rS[8].setClock(clock+1);
                 issued.push_back(i);
                 rS[8].setImm(i.imm);
                 rS[8].setRd(i.rd);
+                rS[8].setIndex(i.index);
             }
             
             
@@ -731,22 +777,24 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                     rS[9].setVj(rf.getRegFile(i.rs1));
                     regS.modifyRegS(i.rd, "NEG1", 1);
                     q.popInstruction();
-                    i.issueTime = clock;
-                    rS[9].setClock(clock);
+                    i.issueTime = clock+1;
+                    rS[9].setClock(clock+1);
                     issued.push_back(i);
                     rS[9].setImm(i.imm);
                     rS[9].setRd(i.rd);
+                    rS[9].setIndex(i.index);
                     
                 }
                 else if(regS.getRegStat(i.rs1).first==1){
                     
                     rS[9].setQj(i.rs1);
                     q.popInstruction();
-                    i.issueTime = clock;
-                    rS[9].setClock(clock);
+                    i.issueTime = clock+1;
+                    rS[9].setClock(clock+1);
                     issued.push_back(i);
                     rS[9].setImm(i.imm);
                     rS[9].setRd(i.rd);
+                    rS[9].setIndex(i.index);
                     
                 }
                 
@@ -770,22 +818,24 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                     rS[10].setVj(rf.getRegFile(i.rs1));
                     regS.modifyRegS(i.rd, "ABS1", 1);
                     q.popInstruction();
-                    i.issueTime = clock;
-                    rS[10].setClock(clock);
+                    i.issueTime = clock+1;
+                    rS[10].setClock(clock+1);
                     issued.push_back(i);
                     rS[10].setImm(i.imm);
                     rS[10].setRd(i.rd);
+                    rS[10].setIndex(i.index);
                     
                 }
                 else if(regS.getRegStat(i.rs1).first==1){
                     
                     rS[10].setQj(i.rs1);
                     q.popInstruction();
-                    i.issueTime = clock;
-                    rS[10].setClock(clock);
+                    i.issueTime = clock+1;
+                    rS[10].setClock(clock+1);
                     issued.push_back(i);
                     rS[10].setImm(i.imm);
                     rS[10].setRd(i.rd);
+                    rS[10].setIndex(i.index);
                     
                 }
                 
@@ -807,22 +857,24 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[11].setVj(rf.getRegFile(i.rs1));
                 regS.modifyRegS(i.rd, "DIV1", 1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[11].setClock(clock);
+                i.issueTime = clock+1;
+                rS[11].setClock(clock+1);
                 issued.push_back(i);
                 rS[11].setImm(i.imm);
                 rS[11].setRd(i.rd);
+                rS[11].setIndex(i.index);
                 
             }
             
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[11].setQj(i.rs1);
                 q.popInstruction();
-                i.issueTime = clock;
-                rS[11].setClock(clock);
+                i.issueTime = clock+1;
+                rS[11].setClock(clock+1);
                 issued.push_back(i);
                 rS[11].setImm(i.imm);
                 rS[11].setRd(i.rd);
+                rS[11].setIndex(i.index);
             }
             
             if(regS.getRegStat(i.rs2).first==0){
@@ -830,12 +882,14 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 regS.modifyRegS(i.rd, "DIV1", 1);
                 rS[11].setImm(i.imm);
                 rS[11].setRd(i.rd);
+                rS[11].setIndex(i.index);
                 
             }
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[11].setQk(i.rs2);
                 rS[11].setImm(i.imm);
                 rS[11].setRd(i.rd);
+                rS[11].setIndex(i.index);
                
             }
             
@@ -855,13 +909,16 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
 
 
 
-void integration::executeInstructions( resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem){
+void integration::executeInstructions( instQueue &q, resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem){
     
     
     //LW execution
     //condition Qj snd Qk  == -1, the reservation station should also
     // be busy (Qj and QK are always set to -1) and no conflicting address
     //first cycle we compute the effective address
+    
+    
+if(!(rS[4].getBusy()|rS[5].getBusy())){
     
     if((rS[0].getBusy()==1)&&(rS[0].getQj()==-1)&&(rS[0].getQk()==-1)){
        
@@ -871,7 +928,7 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
                 
                 if(rS[0].getStartExec()==-1){
                 rS[0].setStartExec(clock);
-                    cout << rS[0].getStartExec() << endl;
+                   
                 }
             }
             
@@ -1011,7 +1068,7 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
                     
                     
                     
-                    wbQueue a;
+                  
                     
                     
                     
@@ -1063,9 +1120,7 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
                 rS[3].setBusy(false);
                 
                 
-                
-                wbQueue a;
-                
+         
                 
                 
             }
@@ -1079,57 +1134,7 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
         
     }
    
-    
-    //BEQ
-    
-    
-    
-    if((rS[4].getBusy()==1)&&(rS[4].getQj()==-1)&&(rS[4].getQk()==-1)){
-        
-        if(rS[4].getStartExec()==-1){
-        rS[4].setStartExec(clock);
-        }
-        
-        
-        
-        if(clock - rS[4].getStartExec() == 2){
-            
-            rS[4].setEndExec(clock);
-            rS[4].setBusy(false);
-            
-            
-        }
-        
-    }
-    
-    
-    
-    
-    
-    //JAL/JALR
-    
-    
-    if((rS[5].getBusy()==1)&&(rS[5].getQj()==-1)&&(rS[5].getQk()==-1)){
-        
-        if(rS[5].getStartExec()==-1){
-        rS[5].setStartExec(clock);
-        }
-        
-        
-        if(clock - rS[5].getStartExec() == 2){
-            
-            rS[5].setEndExec(clock);
-            rS[5].setBusy(false);
-            
-            
-        }
-        
-    }
-    
-    
-    
-    
-    
+
     //ADD/ADDI
     
     
@@ -1284,8 +1289,100 @@ void integration::executeInstructions( resvStation rS[], regStat &regS , regFile
             
         }
         
+        
     }
     
+    
+}
+    
+    
+    
+    
+    
+    //special for branching
+    
+    
+    
+    
+    
+    //BEQ
+    
+    
+    
+    if((rS[4].getBusy()==1)&&(rS[4].getQj()==-1)&&(rS[4].getQk()==-1)){
+        
+        if(rS[4].getStartExec()==-1){
+        rS[4].setStartExec(clock);
+            branchCame = true;
+        }
+        
+        
+        
+        if(clock - rS[4].getStartExec() == 2){
+            branchCounter++;
+            
+            //branch or don't branch function
+            
+            if(rS[4].getVk()-rS[4].getVj()!=0){
+                
+                branchCame =false;
+                goto dontBranch;
+            }
+            
+            
+        //branch function
+            
+            branch( q , rS, regS, rf, issued, mem, 0, 0, rS[4].getClock(), rS[4].getImm(), rS[4].getIndex());
+            
+dontBranch:
+            
+                
+                
+                
+            
+            
+            
+            rS[4].setEndExec(clock);
+            rS[4].setBusy(false);
+            
+            
+        }
+        
+    }
+    
+    
+    
+    
+    
+    //JAL/JALR
+    
+    
+    if((rS[5].getBusy()==1)&&(rS[5].getQj()==-1)&&(rS[5].getQk()==-1)){
+        
+        if(rS[5].getStartExec()==-1){
+        rS[5].setStartExec(clock);
+            jalCame = true;
+        }
+        
+        
+        if(clock - rS[5].getStartExec() == 2){
+          
+            //stopped here
+            jal( q , rS, regS, rf, issued, mem, 0, 0, rS[5].getClock(), rS[5].getImm(), rS[5].getIndex());
+            jalCame = false;
+            rS[5].setEndExec(clock);
+            rS[5].setBusy(false);
+            
+            
+        }
+        
+    }
+    
+    
+    
+    
+    
+
     
     
 }
@@ -1394,6 +1491,72 @@ wbQueue integration::sortAndIssueWb(vector<wbQueue> writeBackQueue){
 
 }
 
+
+
+
+void integration::jal(instQueue &q, resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd, int clk, int imm, int ind){
+    
+    vector<inst> queue = q.getQueue();
+    
+    for(int i=0; i<12; i++){
+        
+        if(rS[i].getClock()>clk && (rS[i].getClock()<=(clk+imm))){
+        
+            rS[i].flush();
+            
+        }
+    }
+    
+    for(int i=0; i<queue.size(); i++){
+        
+        if(queue[i].index<ind+imm){
+            
+            queue.erase(queue.begin()+i); 
+            i=0;
+        }
+    }
+    
+    
+    
+}
+
+
+
+
+void integration::branch(instQueue &q,resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd, int clk, int imm, int ind){
+ 
+    
+    vector<inst> queue = q.getQueue();
+    
+    
+    for(int i=0; i<12; i++){
+        if(i==5){
+            cout << rS[i].getClock()  << endl;
+        }
+        if(rS[i].getClock()>clk && (rS[i].getClock()<=(clk+imm))){
+        
+            rS[i].flush();
+            
+        }
+    }
+    
+    
+    
+    for(int i=0; i<queue.size(); i++){
+        
+        if(queue[i].index<ind+imm){
+            
+            queue.erase(queue.begin()+i);
+            i = 0;
+        }
+    }
+    
+    
+    
+    
+    
+    
+}
 
 
 
