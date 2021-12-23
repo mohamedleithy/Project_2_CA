@@ -259,5 +259,14 @@ vector<inst> instQueue::getQueue(){
 
 
 
+void instQueue::setQueue(vector<inst> q){
+    
+    iQueue = q; 
+    
+    
+    
+    
+}
+
 
 

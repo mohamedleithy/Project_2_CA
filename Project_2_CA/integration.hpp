@@ -25,6 +25,8 @@ struct wbQueue{
     int value;
     int index;
     int clock;
+    int resvNum;
+    int inst; 
     
 };
 
@@ -33,10 +35,12 @@ class integration{
 private:
     int clock;
     int branchCounter;
+    int instIndex;
     int branchMissCounter;
     vector<wbQueue> writeBackQueue; //pair is value and address
     bool branchCame;
     bool jalCame;
+    
    
     
     
@@ -46,11 +50,11 @@ public:
     
     void issueInstructions(instQueue &q, resvStation rS[], regStat &regS, regFile &rf, vector<inst> &issued);
     
-    void executeInstructions(instQueue &q ,resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem);
+    void executeInstructions(instQueue &q , instQueue &p, resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem);
     
     wbQueue sortAndIssueWb(vector<wbQueue> writeBackQueue);
     
-    void wB( resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd);
+    void wB( resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd, int resvNum);
     
     
     void heapify(vector<wbQueue> &j, int n, int i);
@@ -60,10 +64,15 @@ public:
   
     void heap_sort(vector<wbQueue> &j);
    
-    void jal(instQueue &q, resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd, int clk, int imm, int ind);
+    void jal(instQueue &q, instQueue &p, resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd, int clk, int imm, int ind);
     
-    void branch(instQueue &q, resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd, int clk, int imm, int ind);
+    void branch(instQueue &q, instQueue &p, resvStation rS[], regStat &regS , regFile &rf, vector<inst> &issued, dataMem &mem , int valueToWrite, int rd, int clk, int imm, int ind);
 
+    void recoverQueue(instQueue &q, instQueue &pm, int index, int imm);
+    
+    bool checkExit(instQueue &q, resvStation rS[]);
+    
+    void printStats(vector<inst> &issued, int clock); 
     
     
     

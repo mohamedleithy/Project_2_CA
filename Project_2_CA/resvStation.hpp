@@ -23,8 +23,8 @@ private:
     char op;
     int vj;
     int vk;
-    int qj;
-    int qk;
+    string qj;
+    string qk;
     int a;
     int clock;
     int imm;
@@ -40,7 +40,7 @@ public:
     
     void setBusy(bool);
     bool getBusy();
-    void flush(); 
+    void flush(string name); 
     
     void setName(string);
     string getName();
@@ -58,13 +58,13 @@ public:
     
     
     
-    void setQj(int);
-    int getQj();
+    void setQj(string);
+    string getQj();
     
     
     
-    void setQk(int);
-    int getQk();
+    void setQk(string);
+    string getQk();
     
     
     

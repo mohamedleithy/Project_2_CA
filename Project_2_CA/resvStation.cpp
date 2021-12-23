@@ -12,8 +12,8 @@ resvStation::resvStation(){
      op = 'z';
      vj = -1;
      vk= -1;
-     qj= -1;
-     qk = -1;
+     qj= "";
+     qk = "";
      a = -1;
     name = "";
     clock = 0;
@@ -22,7 +22,7 @@ resvStation::resvStation(){
     
     startExec = -1;
     endExec = -1;
-    ind = 0;
+    ind = 10000;
     
     
 }
@@ -98,7 +98,7 @@ int resvStation::getVk(){
 
 
 
-void resvStation::setQj(int x){
+void resvStation::setQj(string x){
     
     
     qj = x;
@@ -106,7 +106,7 @@ void resvStation::setQj(int x){
     
     
 }
-int resvStation::getQj(){
+string resvStation::getQj(){
     
     
     return  qj;
@@ -114,12 +114,12 @@ int resvStation::getQj(){
 
 
 
-void resvStation::setQk(int x){
+void resvStation::setQk(string x){
     
     
     qk = x;
 }
-int resvStation::getQk(){
+string resvStation::getQk(){
     
     
     return qk;
@@ -228,7 +228,7 @@ int resvStation::getEndExec(){
 }
 
 
-void resvStation::flush(){
+void resvStation::flush(string name){
     
     
     
@@ -236,14 +236,14 @@ void resvStation::flush(){
     op = 'z';
     vj = -1;
     vk= -1;
-    qj= -1;
-    qk = -1;
+    qj= "";
+    qk = "";
     a = -1;
-   name = "";
+   name = name;
    clock = 0;
    imm = 0;
    rd = 0;
-   
+    ind = 1000;
    startExec = -1;
    endExec = -1; 
     

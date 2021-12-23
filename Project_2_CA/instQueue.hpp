@@ -50,6 +50,8 @@ public:
     
     vector<inst> getQueue();
     
+    void setQueue(vector<inst> q);
+    
     
     
     
