@@ -718,6 +718,8 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 i.index = rS[6].getIndex();
                 issued.push_back(i);
                 rS[6].setImm(i.imm);
+                rS[6].setVk(i.imm);
+                
                 rS[6].setRd(i.rd);
               
                 rS[6].setStartExec(-1);
@@ -734,6 +736,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 i.index = rS[6].getIndex();
                 issued.push_back(i);
                 rS[6].setImm(i.imm);
+                rS[6].setVk(i.imm);
                 rS[6].setRd(i.rd);
                
                 rS[6].setStartExec(-1);
@@ -745,6 +748,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[6].setVk(rf.getRegFile(i.rs2));
                 regS.modifyRegS(i.rd, "ADD1", 1);
                 rS[6].setImm(i.imm);
+                rS[6].setVk(i.imm);
                 rS[6].setRd(i.rd);
             
                 rS[6].setStartExec(-1);
@@ -753,6 +757,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
             else if(regS.getRegStat(i.rs2).first==1){
                 rS[6].setQk(regS.getRegStat(i.rs2).second);
                 rS[6].setImm(i.imm);
+                rS[6].setVk(i.imm);
                 rS[6].setRd(i.rd);
                 
                 rS[6].setStartExec(-1);
@@ -773,6 +778,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
             rS[7].setBusy(true);
             rS[7].setOp('s');
             rS[7].setImm(i.imm);
+            rS[7].setVk(i.imm);
             rS[7].setIndex(instIndex);
             instIndex++;
             
@@ -783,6 +789,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[7].setVj(rf.getRegFile(i.rs1));
                 regS.modifyRegS(i.rd, "ADD2", 1);
                 rS[7].setImm(i.imm);
+                rS[7].setVk(i.imm);
                 rS[7].setRd(i.rd);
                 
                 rS[7].setStartExec(-1);
@@ -791,6 +798,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[7].setQj(regS.getRegStat(i.rs1).second);
                 rS[7].setImm(i.imm);
+                rS[7].setVk(i.imm);
                 rS[7].setRd(i.rd);
                
                 rS[7].setStartExec(-1);
@@ -809,6 +817,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 i.index = rS[7].getIndex();
                 issued.push_back(i);
                 rS[7].setImm(i.imm);
+                rS[7].setVk(i.imm);
                 rS[7].setRd(i.rd);
               
                 rS[7].setStartExec(-1);
@@ -822,6 +831,8 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 i.index = rS[7].getIndex();
                 issued.push_back(i);
                 rS[7].setImm(i.imm);
+                rS[7].setVk(i.imm);
+                rS[7].setVk(i.imm);
                 rS[7].setRd(i.rd);
                
                 rS[7].setStartExec(-1);
@@ -844,6 +855,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 rS[8].setVj(rf.getRegFile(i.rs1));
                 regS.modifyRegS(i.rd, "ADD3", 1);
                 rS[8].setImm(i.imm);
+                rS[8].setVk(i.imm);
                 rS[8].setRd(i.rd);
                
                 rS[8].setStartExec(-1);
@@ -852,6 +864,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
             else if(regS.getRegStat(i.rs1).first==1){
                 rS[8].setQj(regS.getRegStat(i.rs1).second);
                 rS[8].setImm(i.imm);
+                rS[8].setVk(i.imm);
                 rS[8].setRd(i.rd);
                
                 rS[8].setStartExec(-1);
@@ -870,6 +883,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 i.index = rS[8].getIndex();
                 issued.push_back(i);
                 rS[8].setImm(i.imm);
+                rS[8].setVk(i.imm);
                 rS[8].setRd(i.rd);
             
                 rS[8].setStartExec(-1);
@@ -883,6 +897,7 @@ void integration::issueInstructions(instQueue &q, resvStation rS[], regStat &reg
                 i.index = rS[8].getIndex();
                 issued.push_back(i);
                 rS[8].setImm(i.imm);
+                rS[8].setVk(i.imm);
                 rS[8].setRd(i.rd);
                 
                 rS[8].setStartExec(-1);
@@ -1163,6 +1178,10 @@ void integration::executeInstructions( instQueue &q, instQueue &p, resvStation r
             
                 if((rS[1].getClock()<rS[0].getClock())||(rS[2].getClock()<rS[1].getClock())||(rS[1].getClock()<rS[3].getClock())){
                     
+                    
+                    
+                    
+                    
                     rS[1].setEndExec(clock);
                     issued[rS[1].getIndex()].endExec = clock;
                     
@@ -1178,7 +1197,7 @@ void integration::executeInstructions( instQueue &q, instQueue &p, resvStation r
                 
                 } else {
                     
-                    
+                    //sw function
                     rS[1].setEndExec(clock);
                     issued[rS[1].getIndex()].endExec = clock;
                     
@@ -1236,7 +1255,8 @@ void integration::executeInstructions( instQueue &q, instQueue &p, resvStation r
                 if((rS[2].getA()==rS[0].getA())|| (rS[2].getA()==rS[1].getA()) || (rS[2].getA()==rS[3].getA()) ){
                 
                     if((rS[2].getClock()<rS[0].getClock())||(rS[2].getClock()<rS[1].getClock())||(rS[2].getClock()<rS[3].getClock())){
-                        
+                        //sw function
+                        sW( mem, rS[3].getVk(),rS[3].getA());
                         rS[2].setEndExec(clock);
                         issued[rS[2].getIndex()].endExec = clock;
                         rS[2].setBusy(false);
@@ -1247,7 +1267,8 @@ void integration::executeInstructions( instQueue &q, instQueue &p, resvStation r
                     
                 }else {
                     
-                    
+                    //sw function
+                    sW( mem, rS[3].getVk(),rS[3].getA());
                     rS[2].setEndExec(clock);
                     issued[rS[2].getIndex()].endExec = clock;
                     rS[2].setBusy(false);
@@ -1296,6 +1317,8 @@ void integration::executeInstructions( instQueue &q, instQueue &p, resvStation r
             
                 if((rS[3].getClock()<rS[0].getClock())||(rS[3].getClock()<rS[1].getClock())||(rS[3].getClock()<rS[2].getClock())){
                     
+                    //sw function
+                    sW( mem, rS[3].getVk(),rS[3].getA());
                     rS[3].setEndExec(clock);
                     issued[rS[3].getIndex()].endExec = clock;
                     rS[3].setBusy(false);
@@ -1305,6 +1328,8 @@ void integration::executeInstructions( instQueue &q, instQueue &p, resvStation r
             }
             else {
                 
+                //sw function
+                sW( mem, rS[3].getVk(),rS[3].getA());
                 
                 rS[3].setEndExec(clock);
                 issued[rS[3].getIndex()].endExec = clock;
@@ -1963,6 +1988,17 @@ void integration::printStats(vector<inst> &issued, int clock){
      
     
 }
+
+
+
+
+
+void integration::sW( dataMem &mem, int value, int add){
+    
+    mem.dataSetter(add, value);
+    
+}
+
 
 
 

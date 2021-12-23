@@ -72,7 +72,9 @@ public:
     
     bool checkExit(instQueue &q, resvStation rS[]);
     
-    void printStats(vector<inst> &issued, int clock); 
+    void printStats(vector<inst> &issued, int clock);
+    
+    void sW( dataMem &mem, int value, int add);
     
     
     
