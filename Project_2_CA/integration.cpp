@@ -16,8 +16,8 @@ integration::integration(){
     dataMem mem;
     instQueue q;
     instQueue p;
-    q.parseInst("empty");
-    p.parseInst("empty");
+    q.parseInstLabel("empty");
+    p.parseInstLabel("empty");
     regStat rS;
     regFile rf;
     instIndex = 0;

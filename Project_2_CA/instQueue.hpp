@@ -53,6 +53,7 @@ public:
     void setQueue(vector<inst> q);
     
     
+    void parseInstLabel(string filePath);
     
     
 
