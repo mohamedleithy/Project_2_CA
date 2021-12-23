@@ -1778,7 +1778,7 @@ void integration::jal(instQueue &q, instQueue &p, resvStation rS[], regStat &reg
             regS.modifyRegS(rS[i].getRd(), "", 0);
             
             
-            for(int j=0; i<12; i++){
+            for(int j=0; j<12; j++){
                 
                 
                 if(rS[j].getQk()==rS[i].getName()){
@@ -1952,7 +1952,7 @@ void integration::printStats(vector<inst> &issued, int clock){
     
     cout << "Total time spanned: " << clock << endl;
 
-    cout  << "Branch Mispredictions percentage: " << branchMissCounter/branchCounter *100 << " %" << endl;
+    cout  << "Branch Mispredictions percentage: " << float(branchMissCounter)/float(branchCounter) *float(100) << " %" << endl;
     
     
     float ipc = float(issued.size())/float(clock);
